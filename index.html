@@ -69,6 +69,7 @@
         height: 24px; 
         font-weight: bold; 
         margin-bottom: 15px; 
+        text-align: center;
     }
     
     table { 
@@ -157,8 +158,8 @@
         transition: background 0.2s;
     }
     button:hover { background-color: var(--btn-hover); }
-    button.solve-btn { background-color: #d32f2f; }
     button.new-btn { background-color: #1976d2; }
+    button.reset-btn { background-color: #d32f2f; }
 </style>
 </head>
 <body>
@@ -192,9 +193,7 @@
 
     <div class="controls">
         <button class="new-btn" onclick="newGame()">New Game</button>
-        <button onclick="check()">Check</button>
-        <button onclick="resetGrid()">Reset</button>
-        <button class="solve-btn" onclick="solve()">Solve</button>
+        <button class="reset-btn" onclick="resetGrid()">Reset</button>
     </div>
 
 <script>
@@ -204,8 +203,43 @@
     const table = document.getElementById("grid");
     const msg = document.getElementById("message");
 
+    if (localStorage.getItem("sudokuTheme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+
     function toggleTheme() {
         document.body.classList.toggle("dark-mode");
+        localStorage.setItem("sudokuTheme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+    }
+
+    function saveState() {
+        let currentState = [];
+        for (let i = 0; i < 9; i++) {
+            let row = [];
+            for (let j = 0; j < 9; j++) {
+                const input = document.getElementById(`cell-${i}-${j}`);
+                if (input) {
+                    row.push({
+                        value: input.value,
+                        bgColor: input.style.backgroundColor,
+                        color: input.style.color
+                    });
+                } else {
+                    row.push(null);
+                }
+            }
+            currentState.push(row);
+        }
+        
+        const gameData = {
+            solution: solution,
+            puzzle: puzzle,
+            difficulty: document.getElementById("difficulty").value,
+            currentState: currentState,
+            msgText: msg.innerText,
+            msgColor: msg.style.color
+        };
+        localStorage.setItem('sudokuGame', JSON.stringify(gameData));
     }
 
     function generateSudoku() {
@@ -325,6 +359,8 @@
                     msg.innerText = "";
                     input.value = input.value.replace(/[^1-9]/g, '');
                     if (input.value.length > 1) input.value = input.value.slice(-1);
+                    autoCheckWin();
+                    saveState();
                 });
 
                 input.addEventListener('keydown', (e) => {
@@ -337,6 +373,8 @@
                         input.value = "";
                         input.style.backgroundColor = "";
                         input.style.color = "";
+                        msg.innerText = "";
+                        saveState();
                     }
                     
                     if (r !== i || c !== j) {
@@ -359,16 +397,12 @@
             selectedCell.style.color = "";
             msg.innerText = "";
             selectedCell.focus();
+            autoCheckWin();
+            saveState();
         }
     }
 
-    function newGame() {
-        msg.innerText = "";
-        generateSudoku();
-        renderGrid();
-    }
-
-    function check() {
+    function autoCheckWin() {
         let allCorrect = true;
         let isFull = true;
 
@@ -376,31 +410,41 @@
             for (let j = 0; j < 9; j++) {
                 const input = document.getElementById(`cell-${i}-${j}`);
                 if (!input.readOnly) {
-                    if (input.value == solution[i][j]) {
-                        input.style.backgroundColor = "#4caf50";
-                        input.style.color = "white";
-                    } else if (input.value !== "") {
-                        input.style.backgroundColor = "#f44336";
-                        input.style.color = "white";
-                        allCorrect = false;
-                    } else {
+                    if (input.value === "") {
                         isFull = false;
+                    } else if (input.value != solution[i][j]) {
                         allCorrect = false;
                     }
                 }
             }
         }
 
-        if (allCorrect && isFull) {
-            msg.innerText = "Congratulations! You solved it!";
-            msg.style.color = "#4caf50";
-        } else if (allCorrect && !isFull) {
-            msg.innerText = "Looking good so far!";
-            msg.style.color = "#2196f3";
-        } else {
-            msg.innerText = "There are mistakes.";
-            msg.style.color = "#f44336";
+        if (isFull) {
+            if (allCorrect) {
+                msg.innerText = "Congratulations! You solved it!";
+                msg.style.color = "#4caf50";
+                
+                for (let i = 0; i < 9; i++) {
+                    for (let j = 0; j < 9; j++) {
+                        const input = document.getElementById(`cell-${i}-${j}`);
+                        if (!input.readOnly) {
+                            input.style.backgroundColor = "#4caf50";
+                            input.style.color = "white";
+                        }
+                    }
+                }
+            } else {
+                msg.innerText = "The grid is full, but there are mistakes.";
+                msg.style.color = "#f44336";
+            }
         }
+    }
+
+    function newGame() {
+        msg.innerText = "";
+        generateSudoku();
+        renderGrid();
+        saveState();
     }
 
     function resetGrid() {
@@ -415,24 +459,46 @@
                 }
             }
         }
+        saveState();
     }
 
-    function solve() {
-        msg.innerText = "Puzzle Solved!";
-        msg.style.color = "#2196f3";
-        for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j++) {
-                const input = document.getElementById(`cell-${i}-${j}`);
-                if (!input.readOnly) {
-                    input.value = solution[i][j];
-                    input.style.backgroundColor = "#4caf50";
-                    input.style.color = "white";
+    function init() {
+        const savedData = localStorage.getItem('sudokuGame');
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            solution = data.solution;
+            puzzle = data.puzzle;
+            
+            const diffSelect = document.getElementById("difficulty");
+            if (data.difficulty) diffSelect.value = data.difficulty;
+            
+            renderGrid();
+            
+            if (data.currentState) {
+                for (let i = 0; i < 9; i++) {
+                    for (let j = 0; j < 9; j++) {
+                        const input = document.getElementById(`cell-${i}-${j}`);
+                        if (input && data.currentState[i][j]) {
+                            if (!input.readOnly) {
+                                input.value = data.currentState[i][j].value;
+                                input.style.backgroundColor = data.currentState[i][j].bgColor;
+                                input.style.color = data.currentState[i][j].color;
+                            }
+                        }
+                    }
                 }
             }
+            
+            if (data.msgText) {
+                msg.innerText = data.msgText;
+                msg.style.color = data.msgColor;
+            }
+        } else {
+            newGame();
         }
     }
 
-    newGame();
+    init();
 </script>
 </body>
 </html>
