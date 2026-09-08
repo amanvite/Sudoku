@@ -223,20 +223,20 @@ function autoCheckWin() {
     if (isFull) {
         if (allCorrect) {
             msg.innerText = "Congratulations! You solved it!";
-            msg.style.color = "#4caf50";
+            msg.style.color = "#10b981";
             
             for (let i = 0; i < 9; i++) {
                 for (let j = 0; j < 9; j++) {
                     const input = document.getElementById(`cell-${i}-${j}`);
                     if (!input.readOnly) {
-                        input.style.backgroundColor = "#4caf50";
+                        input.style.backgroundColor = "#10b981";
                         input.style.color = "white";
                     }
                 }
             }
         } else {
             msg.innerText = "The grid is full, but there are mistakes.";
-            msg.style.color = "#f44336";
+            msg.style.color = "#ef4444";
         }
     }
 }
