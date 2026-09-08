@@ -3,24 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Sudoku</title>
+<title>Dynamic Sudoku</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Sudoku</h2>
-    
-    <div class="top-bar">
-        <select id="difficulty" onchange="newGame()">
-            <option value="30">Easy</option>
-            <option value="45" selected>Medium</option>
-            <option value="55">Hard</option>
-        </select>
-        <button class="theme-btn" onclick="toggleTheme()">🌗 Theme</button>
+    <div class="header">
+        <h2>Sudoku</h2>
+        <div class="top-bar">
+            <select id="difficulty" onchange="newGame()">
+                <option value="30">Easy</option>
+                <option value="45" selected>Medium</option>
+                <option value="55">Hard</option>
+            </select>
+            <button class="theme-btn" onclick="toggleTheme()">🌗</button>
+        </div>
     </div>
 
     <div id="message"></div>
     
-    <table id="grid"></table>
+    <div class="board-container">
+        <table id="grid"></table>
+    </div>
     
     <div class="numpad">
         <button onclick="numPress(1)">1</button>
@@ -32,7 +35,7 @@
         <button onclick="numPress(7)">7</button>
         <button onclick="numPress(8)">8</button>
         <button onclick="numPress(9)">9</button>
-        <button onclick="numPress('')">⌫</button>
+        <button onclick="numPress('')" class="del-btn">⌫</button>
     </div>
 
     <div class="controls">

@@ -22,7 +22,6 @@ function saveState() {
             if (input) {
                 row.push({
                     value: input.value,
-                    bgColor: input.style.backgroundColor,
                     color: input.style.color
                 });
             } else {
@@ -106,10 +105,7 @@ function CheckIfSafe(i, j, num) {
 }
 
 function fillRemaining(i, j) {
-    if (j >= 9 && i < 8) {
-        i = i + 1;
-        j = 0;
-    }
+    if (j >= 9 && i < 8) { i = i + 1; j = 0; }
     if (i >= 9 && j >= 9) return true;
     if (i < 3) {
         if (j < 3) j = 3;
@@ -117,8 +113,7 @@ function fillRemaining(i, j) {
         if (j === Math.floor(i / 3) * 3) j = j + 3;
     } else {
         if (j === 6) {
-            i = i + 1;
-            j = 0;
+            i = i + 1; j = 0;
             if (i >= 9) return true;
         }
     }
@@ -156,8 +151,8 @@ function renderGrid() {
             });
 
             input.addEventListener('input', () => {
-                input.style.backgroundColor = "";
                 msg.innerText = "";
+                input.style.color = "";
                 input.value = input.value.replace(/[^1-9]/g, '');
                 if (input.value.length > 1) input.value = input.value.slice(-1);
                 autoCheckWin();
@@ -172,7 +167,6 @@ function renderGrid() {
                 else if (e.key === 'ArrowRight') c = Math.min(8, c + 1);
                 else if (e.key === 'Backspace') {
                     input.value = "";
-                    input.style.backgroundColor = "";
                     input.style.color = "";
                     msg.innerText = "";
                     saveState();
@@ -194,7 +188,6 @@ function renderGrid() {
 function numPress(val) {
     if (selectedCell && !selectedCell.readOnly) {
         selectedCell.value = val;
-        selectedCell.style.backgroundColor = "";
         selectedCell.style.color = "";
         msg.innerText = "";
         selectedCell.focus();
@@ -224,13 +217,11 @@ function autoCheckWin() {
         if (allCorrect) {
             msg.innerText = "Congratulations! You solved it!";
             msg.style.color = "#10b981";
-            
             for (let i = 0; i < 9; i++) {
                 for (let j = 0; j < 9; j++) {
                     const input = document.getElementById(`cell-${i}-${j}`);
                     if (!input.readOnly) {
-                        input.style.backgroundColor = "#10b981";
-                        input.style.color = "white";
+                        input.style.color = "#10b981";
                     }
                 }
             }
@@ -255,7 +246,6 @@ function resetGrid() {
             const input = document.getElementById(`cell-${i}-${j}`);
             if (!input.readOnly) {
                 input.value = "";
-                input.style.backgroundColor = "";
                 input.style.color = "";
             }
         }
@@ -282,7 +272,6 @@ function init() {
                     if (input && data.currentState[i][j]) {
                         if (!input.readOnly) {
                             input.value = data.currentState[i][j].value;
-                            input.style.backgroundColor = data.currentState[i][j].bgColor;
                             input.style.color = data.currentState[i][j].color;
                         }
                     }
