@@ -36,39 +36,45 @@ body {
     font-family: 'Inter', sans-serif; 
     display: flex; 
     flex-direction: column; 
-    align-items: center; 
+    align-items: center;
+    justify-content: center; /* Centers everything vertically */
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 30px 10px;
+    padding: 0 10px;
     transition: background-color 0.3s ease, color 0.3s ease;
-    min-height: 100vh;
+    height: 100dvh; /* Prevents scrolling on all devices */
+    overflow: hidden; /* Strictly prevents scrollbars */
+    box-sizing: border-box;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap; /* Forces title and buttons on same line */
     width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
+    max-width: 420px;
+    margin-bottom: 1.5vh;
 }
 
 h2 { 
     margin: 0;
-    font-size: 28px;
+    font-size: clamp(20px, 4vw, 28px); /* Shrinks slightly on small phones */
     font-weight: 800;
     letter-spacing: -0.5px;
+    white-space: nowrap;
 }
 
 .top-bar {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
 }
 
 select, .theme-btn {
     padding: 8px 12px;
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     font-weight: 600;
     font-family: 'Inter', sans-serif;
     border-radius: 8px;
@@ -84,10 +90,10 @@ select, .theme-btn {
 select:active, .theme-btn:active { transform: scale(0.95); }
 
 #message { 
-    height: 24px; 
+    height: 20px; 
     font-weight: 600; 
-    font-size: 16px;
-    margin-bottom: 15px; 
+    font-size: clamp(14px, 2.5vh, 16px);
+    margin-bottom: 1.5vh; 
     text-align: center;
 }
 
@@ -105,8 +111,9 @@ table {
 
 td { 
     border: 1px solid var(--grid-border-thin); 
-    width: clamp(40px, 10vw, 50px); 
-    height: clamp(40px, 10vw, 50px); 
+    /* This calculates the size based on BOTH screen width and height so it always fits */
+    width: clamp(28px, min(10vw, 6vh), 50px); 
+    height: clamp(28px, min(10vw, 6vh), 50px); 
     padding: 0;
     position: relative;
 }
@@ -121,7 +128,7 @@ input {
     height: 100%; 
     border: 2px solid transparent; 
     text-align: center; 
-    font-size: clamp(20px, 5vw, 24px); 
+    font-size: clamp(18px, min(5vw, 4vh), 24px); 
     font-family: 'Inter', sans-serif;
     box-sizing: border-box; 
     cursor: pointer;
@@ -154,19 +161,19 @@ input:focus {
 .numpad {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    margin-top: 30px;
+    gap: 8px;
+    margin-top: 2.5vh;
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
 }
 
 .numpad button {
     background-color: var(--btn-bg);
     color: var(--btn-text);
-    padding: 16px 0;
-    font-size: 22px;
+    padding: clamp(10px, 2vh, 16px) 0;
+    font-size: clamp(18px, 3vh, 22px);
     font-weight: 600;
-    border-radius: 12px;
+    border-radius: 10px;
     border: none;
     box-shadow: var(--numpad-shadow);
     transition: transform 0.1s, background-color 0.1s;
@@ -181,19 +188,19 @@ input:focus {
 .controls {
     display: flex;
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     gap: 12px;
-    margin-top: 25px;
+    margin-top: 2vh;
 }
 
 .controls button { 
     flex: 1;
-    padding: 14px; 
-    font-size: 16px; 
+    padding: clamp(10px, 2vh, 14px); 
+    font-size: clamp(14px, 2.5vh, 16px); 
     font-weight: 800;
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer; 
     transition: transform 0.1s ease;
     font-family: 'Inter', sans-serif;
