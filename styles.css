@@ -6,7 +6,7 @@
     --grid-bg: #ffffff;
     --grid-border-thick: #111827;
     --grid-border-thin: #e5e7eb;
-    --input-user: #2563eb;
+    --input-user: #1e40af; /* Matches new button shade */
     --input-given: #111827;
     --focus-bg: #eff6ff;
     --focus-ring: #3b82f6;
@@ -41,16 +41,14 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    height: 100dvh; /* Exact viewport height */
-    overflow: hidden; /* No scrolling allowed */
+    height: 100dvh; 
+    overflow: hidden; 
 }
 
-/* Master container that holds everything in a perfect column */
 .app-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* On mobile: 96% of screen width. On laptop: strictly bounded by 55% of the screen height */
     max-width: min(96vw, 55vh); 
     box-sizing: border-box;
 }
@@ -76,11 +74,87 @@ h2 {
     align-items: center;
 }
 
-select, .theme-btn {
+/* Custom Dropdown Styles */
+.custom-dropdown {
+    position: relative;
+    font-family: 'Inter', sans-serif;
+}
+
+.dropdown-selected {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 8px 12px;
     font-size: min(3.5vw, 1.8vh);
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    border-radius: 8px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    cursor: pointer;
+    box-shadow: var(--numpad-shadow);
+    transition: transform 0.1s, background-color 0.2s;
+    user-select: none;
+}
+
+.dropdown-selected:active {
+    transform: scale(0.95);
+}
+
+.dropdown-selected .chevron {
+    transition: transform 0.3s ease;
+}
+
+.dropdown-selected.open .chevron {
+    transform: rotate(180deg); 
+}
+
+.dropdown-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    min-width: 110px;
+    background: var(--grid-bg);
+    border: 1px solid var(--grid-border-thin);
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 100;
+}
+
+.dropdown-options.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.dropdown-option {
+    padding: 10px 12px;
+    font-size: min(3.5vw, 1.8vh);
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.dropdown-option:hover {
+    background-color: var(--focus-bg);
+}
+
+.dropdown-option.selected {
+    color: var(--input-user);
+    background-color: var(--focus-bg);
+}
+
+.theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 10px;
     border-radius: 8px;
     border: none;
     background: var(--btn-bg);
@@ -91,7 +165,7 @@ select, .theme-btn {
     transition: transform 0.1s;
 }
 
-select:active, .theme-btn:active { transform: scale(0.95); }
+.theme-btn:active { transform: scale(0.95); }
 
 #message { 
     height: 2vh; 
@@ -107,7 +181,7 @@ select:active, .theme-btn:active { transform: scale(0.95); }
     border-radius: 4px;
     box-shadow: var(--numpad-shadow);
     width: 100%;
-    aspect-ratio: 1 / 1; /* Forces the board to be a perfect square */
+    aspect-ratio: 1 / 1; 
     overflow: hidden;
 }
 
@@ -115,7 +189,7 @@ table {
     width: 100%;
     height: 100%;
     border-collapse: collapse; 
-    table-layout: fixed; /* Evenly distributes all 9 cells */
+    table-layout: fixed; 
 }
 
 td { 
@@ -183,6 +257,9 @@ input:focus {
     box-shadow: var(--numpad-shadow);
     transition: transform 0.1s, background-color 0.1s;
     font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .numpad button:active { 
@@ -206,10 +283,15 @@ input:focus {
     border: none;
     border-radius: 10px;
     cursor: pointer; 
-    transition: transform 0.1s ease;
+    transition: transform 0.1s ease, filter 0.2s ease;
     font-family: 'Inter', sans-serif;
 }
 
 .controls button:active { transform: scale(0.96); }
-button.new-btn { background-color: #2563eb; }
-button.reset-btn { background-color: #ef4444; }
+
+/* Updated Button Shades - Darker & More Professional */
+button.new-btn { background-color: #1e40af; } /* Deep Royal Blue */
+button.new-btn:hover { filter: brightness(0.9); }
+
+button.reset-btn { background-color: #b91c1c; } /* Deep Crimson Red */
+button.reset-btn:hover { filter: brightness(0.9); }

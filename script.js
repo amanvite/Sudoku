@@ -3,15 +3,59 @@ let puzzle = [];
 let selectedCell = null;
 const table = document.getElementById("grid");
 const msg = document.getElementById("message");
+const moonIcon = document.getElementById("moon-icon");
+const sunIcon = document.getElementById("sun-icon");
 
-if (localStorage.getItem("sudokuTheme") === "dark") {
-    document.body.classList.add("dark-mode");
+// Swaps the Moon/Sun SVG icon based on the current theme
+function updateThemeIcon() {
+    if (document.body.classList.contains("dark-mode")) {
+        moonIcon.style.display = "none";
+        sunIcon.style.display = "block";
+    } else {
+        moonIcon.style.display = "block";
+        sunIcon.style.display = "none";
+    }
 }
 
 function toggleTheme() {
     document.body.classList.toggle("dark-mode");
     localStorage.setItem("sudokuTheme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+    updateThemeIcon(); // Triggers the icon change immediately
 }
+
+function toggleDropdown(event) {
+    event.stopPropagation(); 
+    const optionsMenu = document.getElementById('dropdown-options');
+    const selectedBox = document.querySelector('.dropdown-selected');
+    
+    optionsMenu.classList.toggle('show');
+    selectedBox.classList.toggle('open');
+}
+
+function selectDifficulty(value, text) {
+    document.getElementById('difficulty').value = value;
+    document.getElementById('dropdown-text').innerText = text;
+    
+    const options = document.querySelectorAll('.dropdown-option');
+    options.forEach(opt => {
+        opt.classList.remove('selected');
+        if (opt.innerText === text) opt.classList.add('selected');
+    });
+    
+    closeDropdown();
+    newGame();
+}
+
+function closeDropdown() {
+    const optionsMenu = document.getElementById('dropdown-options');
+    const selectedBox = document.querySelector('.dropdown-selected');
+    if (optionsMenu && optionsMenu.classList.contains('show')) {
+        optionsMenu.classList.remove('show');
+        selectedBox.classList.remove('open');
+    }
+}
+
+document.addEventListener('click', closeDropdown);
 
 function saveState() {
     let currentState = [];
@@ -254,14 +298,31 @@ function resetGrid() {
 }
 
 function init() {
+    // Check saved theme first
+    if (localStorage.getItem("sudokuTheme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+    updateThemeIcon(); // Ensure the icon matches on page load
+
     const savedData = localStorage.getItem('sudokuGame');
     if (savedData) {
         const data = JSON.parse(savedData);
         solution = data.solution;
         puzzle = data.puzzle;
         
-        const diffSelect = document.getElementById("difficulty");
-        if (data.difficulty) diffSelect.value = data.difficulty;
+        const diffInput = document.getElementById("difficulty");
+        if (data.difficulty) {
+            diffInput.value = data.difficulty;
+            let diffText = "Medium";
+            if (data.difficulty == 30) diffText = "Easy";
+            if (data.difficulty == 55) diffText = "Hard";
+            document.getElementById("dropdown-text").innerText = diffText;
+            
+            document.querySelectorAll('.dropdown-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.innerText === diffText) opt.classList.add('selected');
+            });
+        }
         
         renderGrid();
         
@@ -288,4 +349,5 @@ function init() {
     }
 }
 
+// Start the game loop
 init();
