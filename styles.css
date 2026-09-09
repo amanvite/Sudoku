@@ -6,7 +6,7 @@
     --grid-bg: #ffffff;
     --grid-border-thick: #111827;
     --grid-border-thin: #e5e7eb;
-    --input-user: #1e40af; /* Matches new button shade */
+    --input-user: #1e40af; 
     --input-given: #111827;
     --focus-bg: #eff6ff;
     --focus-ring: #3b82f6;
@@ -61,11 +61,25 @@ body {
     margin-bottom: 1vh;
 }
 
+.title-group {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
 h2 { 
     margin: 0;
     font-size: min(7vw, 3.5vh);
     font-weight: 800;
     letter-spacing: -0.5px;
+}
+
+#timer {
+    font-size: min(4.5vw, 2.2vh);
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.6;
+    font-variant-numeric: tabular-nums; /* Keeps numbers from shifting widths */
 }
 
 .top-bar {
@@ -74,7 +88,6 @@ h2 {
     align-items: center;
 }
 
-/* Custom Dropdown Styles */
 .custom-dropdown {
     position: relative;
     font-family: 'Inter', sans-serif;
@@ -96,17 +109,10 @@ h2 {
     user-select: none;
 }
 
-.dropdown-selected:active {
-    transform: scale(0.95);
-}
+.dropdown-selected:active { transform: scale(0.95); }
 
-.dropdown-selected .chevron {
-    transition: transform 0.3s ease;
-}
-
-.dropdown-selected.open .chevron {
-    transform: rotate(180deg); 
-}
+.dropdown-selected .chevron { transition: transform 0.3s ease; }
+.dropdown-selected.open .chevron { transform: rotate(180deg); }
 
 .dropdown-options {
     position: absolute;
@@ -141,10 +147,7 @@ h2 {
     transition: background-color 0.15s ease;
 }
 
-.dropdown-option:hover {
-    background-color: var(--focus-bg);
-}
-
+.dropdown-option:hover { background-color: var(--focus-bg); }
 .dropdown-option.selected {
     color: var(--input-user);
     background-color: var(--focus-bg);
@@ -288,10 +291,7 @@ input:focus {
 }
 
 .controls button:active { transform: scale(0.96); }
-
-/* Updated Button Shades - Darker & More Professional */
-button.new-btn { background-color: #1e40af; } /* Deep Royal Blue */
+button.new-btn { background-color: #1e40af; }
 button.new-btn:hover { filter: brightness(0.9); }
-
-button.reset-btn { background-color: #b91c1c; } /* Deep Crimson Red */
+button.reset-btn { background-color: #b91c1c; }
 button.reset-btn:hover { filter: brightness(0.9); }

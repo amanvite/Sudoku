@@ -6,7 +6,62 @@ const msg = document.getElementById("message");
 const moonIcon = document.getElementById("moon-icon");
 const sunIcon = document.getElementById("sun-icon");
 
-// Swaps the Moon/Sun SVG icon based on the current theme
+// Timer Variables
+let secondsElapsed = 0;
+let timerInterval = null;
+let isTimerRunning = false;
+let isGameWon = false;
+const timerDisplay = document.getElementById("timer");
+
+// --- Timer Logic ---
+function formatTime(totalSeconds) {
+    const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+    const s = (totalSeconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+}
+
+function updateTimerDisplay() {
+    timerDisplay.innerText = formatTime(secondsElapsed);
+}
+
+function startTimer() {
+    if (!isTimerRunning && !isGameWon) {
+        isTimerRunning = true;
+        timerInterval = setInterval(() => {
+            secondsElapsed++;
+            updateTimerDisplay();
+        }, 1000);
+    }
+}
+
+function stopTimer() {
+    if (isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+    }
+}
+
+function resetTimer() {
+    stopTimer();
+    secondsElapsed = 0;
+    isGameWon = false;
+    updateTimerDisplay();
+    startTimer();
+}
+
+// Pause Timer when user switches tabs or minimizes the browser
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        stopTimer();
+        saveState(); // Ensure the exact second is saved when hiding
+    } else {
+        if (!isGameWon) {
+            startTimer();
+        }
+    }
+});
+
+// --- Theme & UI Logic ---
 function updateThemeIcon() {
     if (document.body.classList.contains("dark-mode")) {
         moonIcon.style.display = "none";
@@ -20,7 +75,7 @@ function updateThemeIcon() {
 function toggleTheme() {
     document.body.classList.toggle("dark-mode");
     localStorage.setItem("sudokuTheme", document.body.classList.contains("dark-mode") ? "dark" : "light");
-    updateThemeIcon(); // Triggers the icon change immediately
+    updateThemeIcon(); 
 }
 
 function toggleDropdown(event) {
@@ -57,6 +112,7 @@ function closeDropdown() {
 
 document.addEventListener('click', closeDropdown);
 
+// --- Game State Logic ---
 function saveState() {
     let currentState = [];
     for (let i = 0; i < 9; i++) {
@@ -81,7 +137,9 @@ function saveState() {
         difficulty: document.getElementById("difficulty").value,
         currentState: currentState,
         msgText: msg.innerText,
-        msgColor: msg.style.color
+        msgColor: msg.style.color,
+        secondsElapsed: secondsElapsed, // Save Timer
+        isGameWon: isGameWon            // Save Win Status
     };
     localStorage.setItem('sudokuGame', JSON.stringify(gameData));
 }
@@ -261,6 +319,9 @@ function autoCheckWin() {
         if (allCorrect) {
             msg.innerText = "Congratulations! You solved it!";
             msg.style.color = "#10b981";
+            isGameWon = true; 
+            stopTimer(); // Halt timer upon winning
+            
             for (let i = 0; i < 9; i++) {
                 for (let j = 0; j < 9; j++) {
                     const input = document.getElementById(`cell-${i}-${j}`);
@@ -280,6 +341,7 @@ function newGame() {
     msg.innerText = "";
     generateSudoku();
     renderGrid();
+    resetTimer(); // Restarts time for new game
     saveState();
 }
 
@@ -294,15 +356,15 @@ function resetGrid() {
             }
         }
     }
+    resetTimer(); // Restart time since board resets
     saveState();
 }
 
 function init() {
-    // Check saved theme first
     if (localStorage.getItem("sudokuTheme") === "dark") {
         document.body.classList.add("dark-mode");
     }
-    updateThemeIcon(); // Ensure the icon matches on page load
+    updateThemeIcon();
 
     const savedData = localStorage.getItem('sudokuGame');
     if (savedData) {
@@ -310,6 +372,7 @@ function init() {
         solution = data.solution;
         puzzle = data.puzzle;
         
+        // Restore difficulty
         const diffInput = document.getElementById("difficulty");
         if (data.difficulty) {
             diffInput.value = data.difficulty;
@@ -324,8 +387,16 @@ function init() {
             });
         }
         
+        // Restore timer and win state
+        if (data.secondsElapsed !== undefined) {
+            secondsElapsed = data.secondsElapsed;
+            isGameWon = data.isGameWon || false;
+            updateTimerDisplay();
+        }
+        
         renderGrid();
         
+        // Restore grid values and colors
         if (data.currentState) {
             for (let i = 0; i < 9; i++) {
                 for (let j = 0; j < 9; j++) {
@@ -340,14 +411,19 @@ function init() {
             }
         }
         
+        // Restore message
         if (data.msgText) {
             msg.innerText = data.msgText;
             msg.style.color = data.msgColor;
+        }
+
+        // Start timer if the restored game is not yet won
+        if (!isGameWon) {
+            startTimer();
         }
     } else {
         newGame();
     }
 }
 
-// Start the game loop
 init();
