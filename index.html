@@ -7,40 +7,43 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="header">
-        <h2>Sudoku</h2>
-        <div class="top-bar">
-            <select id="difficulty" onchange="newGame()">
-                <option value="30">Easy</option>
-                <option value="45" selected>Medium</option>
-                <option value="55">Hard</option>
-            </select>
-            <button class="theme-btn" onclick="toggleTheme()">🌗</button>
+    
+    <div class="app-container">
+        <div class="header">
+            <h2>Sudoku</h2>
+            <div class="top-bar">
+                <select id="difficulty" onchange="newGame()">
+                    <option value="30">Easy</option>
+                    <option value="45" selected>Medium</option>
+                    <option value="55">Hard</option>
+                </select>
+                <button class="theme-btn" onclick="toggleTheme()">🌗</button>
+            </div>
         </div>
-    </div>
 
-    <div id="message"></div>
-    
-    <div class="board-container">
-        <table id="grid"></table>
-    </div>
-    
-    <div class="numpad">
-        <button onclick="numPress(1)">1</button>
-        <button onclick="numPress(2)">2</button>
-        <button onclick="numPress(3)">3</button>
-        <button onclick="numPress(4)">4</button>
-        <button onclick="numPress(5)">5</button>
-        <button onclick="numPress(6)">6</button>
-        <button onclick="numPress(7)">7</button>
-        <button onclick="numPress(8)">8</button>
-        <button onclick="numPress(9)">9</button>
-        <button onclick="numPress('')" class="del-btn">⌫</button>
-    </div>
+        <div id="message"></div>
+        
+        <div class="board-container">
+            <table id="grid"></table>
+        </div>
+        
+        <div class="numpad">
+            <button onclick="numPress(1)">1</button>
+            <button onclick="numPress(2)">2</button>
+            <button onclick="numPress(3)">3</button>
+            <button onclick="numPress(4)">4</button>
+            <button onclick="numPress(5)">5</button>
+            <button onclick="numPress(6)">6</button>
+            <button onclick="numPress(7)">7</button>
+            <button onclick="numPress(8)">8</button>
+            <button onclick="numPress(9)">9</button>
+            <button onclick="numPress('')" class="del-btn">⌫</button>
+        </div>
 
-    <div class="controls">
-        <button class="new-btn" onclick="newGame()">New Game</button>
-        <button class="reset-btn" onclick="resetGrid()">Reset</button>
+        <div class="controls">
+            <button class="new-btn" onclick="newGame()">New Game</button>
+            <button class="reset-btn" onclick="resetGrid()">Reset</button>
+        </div>
     </div>
 
 <script src="script.js"></script>

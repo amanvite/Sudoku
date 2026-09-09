@@ -35,16 +35,23 @@ body.dark-mode {
 body { 
     font-family: 'Inter', sans-serif; 
     display: flex; 
-    flex-direction: column; 
-    align-items: center;
-    justify-content: center; /* Centers everything vertically */
+    justify-content: center; 
+    align-items: center; 
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 0 10px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    height: 100dvh; /* Prevents scrolling on all devices */
-    overflow: hidden; /* Strictly prevents scrollbars */
+    padding: 0;
+    height: 100dvh; /* Exact viewport height */
+    overflow: hidden; /* No scrolling allowed */
+}
+
+/* Master container that holds everything in a perfect column */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* On mobile: 96% of screen width. On laptop: strictly bounded by 55% of the screen height */
+    max-width: min(96vw, 55vh); 
     box-sizing: border-box;
 }
 
@@ -52,18 +59,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap; /* Forces title and buttons on same line */
     width: 100%;
-    max-width: 420px;
-    margin-bottom: 1.5vh;
+    margin-bottom: 1vh;
 }
 
 h2 { 
     margin: 0;
-    font-size: clamp(20px, 4vw, 28px); /* Shrinks slightly on small phones */
+    font-size: min(7vw, 3.5vh);
     font-weight: 800;
     letter-spacing: -0.5px;
-    white-space: nowrap;
 }
 
 .top-bar {
@@ -74,7 +78,7 @@ h2 {
 
 select, .theme-btn {
     padding: 8px 12px;
-    font-size: clamp(12px, 3vw, 14px);
+    font-size: min(3.5vw, 1.8vh);
     font-weight: 600;
     font-family: 'Inter', sans-serif;
     border-radius: 8px;
@@ -90,9 +94,9 @@ select, .theme-btn {
 select:active, .theme-btn:active { transform: scale(0.95); }
 
 #message { 
-    height: 20px; 
+    height: 2vh; 
     font-weight: 600; 
-    font-size: clamp(14px, 2.5vh, 16px);
+    font-size: min(4vw, 2vh);
     margin-bottom: 1.5vh; 
     text-align: center;
 }
@@ -101,19 +105,21 @@ select:active, .theme-btn:active { transform: scale(0.95); }
     background: var(--grid-bg);
     border: 3px solid var(--grid-border-thick);
     border-radius: 4px;
-    overflow: hidden;
     box-shadow: var(--numpad-shadow);
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Forces the board to be a perfect square */
+    overflow: hidden;
 }
 
 table { 
+    width: 100%;
+    height: 100%;
     border-collapse: collapse; 
+    table-layout: fixed; /* Evenly distributes all 9 cells */
 }
 
 td { 
     border: 1px solid var(--grid-border-thin); 
-    /* This calculates the size based on BOTH screen width and height so it always fits */
-    width: clamp(28px, min(10vw, 6vh), 50px); 
-    height: clamp(28px, min(10vw, 6vh), 50px); 
     padding: 0;
     position: relative;
 }
@@ -128,7 +134,7 @@ input {
     height: 100%; 
     border: 2px solid transparent; 
     text-align: center; 
-    font-size: clamp(18px, min(5vw, 4vh), 24px); 
+    font-size: min(6vw, 3.5vh); 
     font-family: 'Inter', sans-serif;
     box-sizing: border-box; 
     cursor: pointer;
@@ -164,14 +170,13 @@ input:focus {
     gap: 8px;
     margin-top: 2.5vh;
     width: 100%;
-    max-width: 420px;
 }
 
 .numpad button {
     background-color: var(--btn-bg);
     color: var(--btn-text);
-    padding: clamp(10px, 2vh, 16px) 0;
-    font-size: clamp(18px, 3vh, 22px);
+    padding: min(2vh, 16px) 0;
+    font-size: min(5vw, 2.5vh);
     font-weight: 600;
     border-radius: 10px;
     border: none;
@@ -188,15 +193,14 @@ input:focus {
 .controls {
     display: flex;
     width: 100%;
-    max-width: 420px;
     gap: 12px;
     margin-top: 2vh;
 }
 
 .controls button { 
     flex: 1;
-    padding: clamp(10px, 2vh, 14px); 
-    font-size: clamp(14px, 2.5vh, 16px); 
+    padding: min(2vh, 16px); 
+    font-size: min(4vw, 2vh); 
     font-weight: 800;
     color: white;
     border: none;
