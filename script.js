@@ -271,6 +271,7 @@ function renderGrid() {
                     input.value = "";
                     input.style.color = "";
                     msg.innerText = "";
+                    autoCheckWin(); // Triggers the color reset when backspacing from a full board
                     saveState();
                 }
                 
@@ -321,18 +322,33 @@ function autoCheckWin() {
             msg.style.color = "#10b981";
             isGameWon = true; 
             stopTimer(); // Halt timer upon winning
-            
-            for (let i = 0; i < 9; i++) {
-                for (let j = 0; j < 9; j++) {
-                    const input = document.getElementById(`cell-${i}-${j}`);
-                    if (!input.readOnly) {
-                        input.style.color = "#10b981";
-                    }
-                }
-            }
         } else {
             msg.innerText = "The grid is full, but there are mistakes.";
             msg.style.color = "#ef4444";
+        }
+
+        // Apply green to correct cells, red to incorrect cells
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                const input = document.getElementById(`cell-${i}-${j}`);
+                if (!input.readOnly) {
+                    if (input.value == solution[i][j]) {
+                        input.style.color = "#10b981"; // Correct
+                    } else {
+                        input.style.color = "#ef4444"; // Mistake
+                    }
+                }
+            }
+        }
+    } else {
+        // If the grid is not full (e.g. user deleted a number to fix a mistake), reset all colors to normal
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                const input = document.getElementById(`cell-${i}-${j}`);
+                if (!input.readOnly) {
+                    input.style.color = "";
+                }
+            }
         }
     }
 }
@@ -341,7 +357,7 @@ function newGame() {
     msg.innerText = "";
     generateSudoku();
     renderGrid();
-    resetTimer(); // Restarts time for new game
+    resetTimer(); 
     saveState();
 }
 
@@ -356,15 +372,16 @@ function resetGrid() {
             }
         }
     }
-    resetTimer(); // Restart time since board resets
+    resetTimer(); 
     saveState();
 }
 
 function init() {
+    // Check saved theme first
     if (localStorage.getItem("sudokuTheme") === "dark") {
         document.body.classList.add("dark-mode");
     }
-    updateThemeIcon();
+    updateThemeIcon(); 
 
     const savedData = localStorage.getItem('sudokuGame');
     if (savedData) {
@@ -426,4 +443,5 @@ function init() {
     }
 }
 
+// Start the game loop
 init();
