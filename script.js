@@ -49,11 +49,10 @@ function resetTimer() {
     startTimer();
 }
 
-// Pause Timer when user switches tabs or minimizes the browser
 document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
         stopTimer();
-        saveState(); // Ensure the exact second is saved when hiding
+        saveState(); 
     } else {
         if (!isGameWon) {
             startTimer();
@@ -112,6 +111,34 @@ function closeDropdown() {
 
 document.addEventListener('click', closeDropdown);
 
+// --- Confetti & Modal Logic ---
+function fireConfetti() {
+    if (typeof confetti !== 'function') return;
+    
+    // Shoot from the left edge
+    confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { x: 0, y: 0.6 },
+        angle: 60,
+        zIndex: 2000 // Ensures it shows above the modal overlay
+    });
+    
+    // Shoot from the right edge
+    confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { x: 1, y: 0.6 },
+        angle: 120,
+        zIndex: 2000
+    });
+}
+
+function closeModalAndNewGame() {
+    document.getElementById('victory-modal').classList.remove('show');
+    newGame();
+}
+
 // --- Game State Logic ---
 function saveState() {
     let currentState = [];
@@ -138,8 +165,8 @@ function saveState() {
         currentState: currentState,
         msgText: msg.innerText,
         msgColor: msg.style.color,
-        secondsElapsed: secondsElapsed, // Save Timer
-        isGameWon: isGameWon            // Save Win Status
+        secondsElapsed: secondsElapsed, 
+        isGameWon: isGameWon            
     };
     localStorage.setItem('sudokuGame', JSON.stringify(gameData));
 }
@@ -271,7 +298,7 @@ function renderGrid() {
                     input.value = "";
                     input.style.color = "";
                     msg.innerText = "";
-                    autoCheckWin(); // Triggers the color reset when backspacing from a full board
+                    autoCheckWin(); 
                     saveState();
                 }
                 
@@ -317,13 +344,21 @@ function autoCheckWin() {
     }
 
     if (isFull) {
+        msg.innerText = ""; // Clear top message entirely on full board
+
         if (allCorrect) {
-            msg.innerText = "Congratulations! You solved it!";
-            msg.style.color = "#10b981";
-            isGameWon = true; 
-            stopTimer(); // Halt timer upon winning
+            // Only fire confetti and show modal if the game wasn't already marked as won
+            if (!isGameWon) {
+                isGameWon = true; 
+                stopTimer();
+                fireConfetti();
+                
+                // Set the modal text and show it
+                document.getElementById('victory-time').innerText = formatTime(secondsElapsed);
+                document.getElementById('victory-modal').classList.add('show');
+            }
         } else {
-            msg.innerText = "The grid is full, but there are mistakes.";
+            msg.innerText = "There are mistakes.";
             msg.style.color = "#ef4444";
         }
 
@@ -341,7 +376,7 @@ function autoCheckWin() {
             }
         }
     } else {
-        // If the grid is not full (e.g. user deleted a number to fix a mistake), reset all colors to normal
+        // If the grid is not full, reset colors
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 const input = document.getElementById(`cell-${i}-${j}`);
@@ -377,7 +412,6 @@ function resetGrid() {
 }
 
 function init() {
-    // Check saved theme first
     if (localStorage.getItem("sudokuTheme") === "dark") {
         document.body.classList.add("dark-mode");
     }
@@ -389,7 +423,6 @@ function init() {
         solution = data.solution;
         puzzle = data.puzzle;
         
-        // Restore difficulty
         const diffInput = document.getElementById("difficulty");
         if (data.difficulty) {
             diffInput.value = data.difficulty;
@@ -404,7 +437,6 @@ function init() {
             });
         }
         
-        // Restore timer and win state
         if (data.secondsElapsed !== undefined) {
             secondsElapsed = data.secondsElapsed;
             isGameWon = data.isGameWon || false;
@@ -413,7 +445,6 @@ function init() {
         
         renderGrid();
         
-        // Restore grid values and colors
         if (data.currentState) {
             for (let i = 0; i < 9; i++) {
                 for (let j = 0; j < 9; j++) {
@@ -428,13 +459,11 @@ function init() {
             }
         }
         
-        // Restore message
         if (data.msgText) {
             msg.innerText = data.msgText;
             msg.style.color = data.msgColor;
         }
 
-        // Start timer if the restored game is not yet won
         if (!isGameWon) {
             startTimer();
         }
@@ -443,5 +472,4 @@ function init() {
     }
 }
 
-// Start the game loop
 init();

@@ -79,7 +79,7 @@ h2 {
     font-weight: 600;
     color: var(--text-color);
     opacity: 0.6;
-    font-variant-numeric: tabular-nums; /* Keeps numbers from shifting widths */
+    font-variant-numeric: tabular-nums;
 }
 
 .top-bar {
@@ -110,7 +110,6 @@ h2 {
 }
 
 .dropdown-selected:active { transform: scale(0.95); }
-
 .dropdown-selected .chevron { transition: transform 0.3s ease; }
 .dropdown-selected.open .chevron { transform: rotate(180deg); }
 
@@ -295,3 +294,68 @@ button.new-btn { background-color: #1e40af; }
 button.new-btn:hover { filter: brightness(0.9); }
 button.reset-btn { background-color: #b91c1c; }
 button.reset-btn:hover { filter: brightness(0.9); }
+
+/* --- Victory Modal Styles --- */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--grid-bg);
+    color: var(--text-color);
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    max-width: 90%;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 25px;
+    opacity: 0.8;
+}
+
+.modal-content button {
+    background-color: #1e40af;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: transform 0.1s;
+}
+
+.modal-content button:active {
+    transform: scale(0.95);
+}

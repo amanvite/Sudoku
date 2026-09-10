@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Sudoku</title>
 <link rel="stylesheet" href="styles.css">
+<!-- Confetti Library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
     
@@ -79,6 +81,15 @@
         <div class="controls">
             <button class="new-btn" onclick="newGame()">New Game</button>
             <button class="reset-btn" onclick="resetGrid()">Reset</button>
+        </div>
+    </div>
+
+    <!-- Victory Modal -->
+    <div id="victory-modal" class="modal">
+        <div class="modal-content">
+            <h2>Congratulations! 🎉</h2>
+            <p>You solved this puzzle in <span id="victory-time"></span></p>
+            <button onclick="closeModalAndNewGame()">Play Again</button>
         </div>
     </div>
 
