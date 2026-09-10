@@ -10,53 +10,54 @@
 </head>
 <body>
     
-    <!-- Full Width Navbar -->
+    <!-- Full Width Navbar (Matches Grid Alignment on Desktop) -->
     <nav class="top-navbar">
-        <div class="nav-left">
-            <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-            <h2>Sudoku</h2>
-        </div>
-        
-        <div class="nav-right">
-            <!-- Mobile Custom Dropdown (Hidden on Desktop) -->
-            <div class="custom-dropdown mobile-only" id="difficulty-dropdown">
-                <div class="dropdown-selected" onclick="toggleDropdown(event)">
-                    <span id="dropdown-text">Medium</span>
-                    <svg class="chevron" id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </div>
-                <div class="dropdown-options" id="dropdown-options">
-                    <div class="dropdown-option" onclick="selectDifficulty(30, 'Easy')">Easy</div>
-                    <div class="dropdown-option selected" onclick="selectDifficulty(45, 'Medium')">Medium</div>
-                    <div class="dropdown-option" onclick="selectDifficulty(55, 'Hard')">Hard</div>
-                </div>
+        <div class="nav-content">
+            <div class="nav-left">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <h2>Sudoku</h2>
             </div>
             
-            <!-- Hidden input to store value globally -->
-            <input type="hidden" id="difficulty" value="45">
+            <div class="nav-right">
+                <!-- Mobile Custom Dropdown (Hidden on Desktop) -->
+                <div class="custom-dropdown mobile-only" id="difficulty-dropdown">
+                    <div class="dropdown-selected" onclick="toggleDropdown(event)">
+                        <span id="dropdown-text">Medium</span>
+                        <svg class="chevron" id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="dropdown-options" id="dropdown-options">
+                        <div class="dropdown-option" onclick="selectDifficulty(30, 'Easy')">Easy</div>
+                        <div class="dropdown-option selected" onclick="selectDifficulty(45, 'Medium')">Medium</div>
+                        <div class="dropdown-option" onclick="selectDifficulty(55, 'Hard')">Hard</div>
+                    </div>
+                </div>
+                
+                <input type="hidden" id="difficulty" value="45">
 
-            <!-- Theme Toggle -->
-            <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-                <svg id="sun-icon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-            </button>
+                <!-- Boxed Theme Toggle with SVG Icons -->
+                <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun-icon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -110,50 +111,9 @@
         </div>
     </div>
 
-    <!-- Portfolio CTA Footer -->
-    <footer class="portfolio-footer">
-        <div class="footer-content">
-            <h2>Let's build something great.</h2>
-            <p>Currently accepting freelance opportunities and open to remote collaboration. Reach out to discuss your next web application or micro-SaaS project.</p>
-            
-            <div class="footer-buttons">
-                <!-- Link to your GitHub -->
-                <a href="https://github.com/amanvite" target="_blank" class="footer-btn ghost-btn">View GitHub</a>
-                <!-- Link to your Email -->
-                <a href="mailto:your@email.com" class="footer-btn outline-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    Email Me
-                </a>
-            </div>
-
-            <div class="social-icons">
-                <a href="https://github.com/amanvite" target="_blank" aria-label="GitHub">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                </a>
-                <a href="#" aria-label="Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                </a>
-                <a href="#" aria-label="Website">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2026 Aman Kumar Verma. All rights reserved.
-        </div>
+    <!-- Minimal Copyright Footer -->
+    <footer class="app-footer">
+        <p>&copy; 2026 Aman Kumar Verma. All rights reserved.</p>
     </footer>
 
     <!-- Victory Modal -->

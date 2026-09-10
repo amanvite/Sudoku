@@ -57,17 +57,25 @@ body {
     background-color: var(--grid-bg);
     border-bottom: 1px solid var(--nav-border);
     display: flex;
-    justify-content: space-between;
+    justify-content: center; 
     align-items: center;
-    padding: 0 5vw;
     box-sizing: border-box;
     z-index: 100;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 5vw; 
+    box-sizing: border-box;
 }
 
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .menu-icon {
@@ -141,10 +149,11 @@ body {
     font-variant-numeric: tabular-nums;
 }
 
-/* --- Dropdown & Buttons (Mobile Navbar) --- */
+/* --- Boxed Theme Toggle & Dropdown --- */
 .custom-dropdown { position: relative; font-family: 'Inter', sans-serif; }
 
 .dropdown-selected, .theme-btn {
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -152,12 +161,13 @@ body {
     font-size: 14px;
     font-weight: 600;
     border-radius: 8px;
-    background: transparent;
-    color: var(--text-color);
+    background: var(--btn-bg);
+    color: var(--btn-text);
     cursor: pointer;
-    transition: background-color 0.2s;
+    border: 1px solid var(--grid-border-thin);
+    box-shadow: var(--numpad-shadow);
+    transition: transform 0.1s, background-color 0.2s;
     user-select: none;
-    border: none;
 }
 
 .dropdown-selected:hover, .theme-btn:hover { background-color: var(--numpad-active); }
@@ -266,37 +276,19 @@ button.new-btn:hover { filter: brightness(0.9); }
 button.reset-btn { background-color: #ef4444; }
 button.reset-btn:hover { filter: brightness(0.9); }
 
-/* --- Portfolio CTA Footer --- */
-.portfolio-footer {
+/* --- Minimal Footer --- */
+.app-footer {
     width: 100%;
-    background-color: var(--bg-color);
-    border-top: 1px solid var(--nav-border);
-    padding: 60px 20px 20px;
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+    opacity: 0.5;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
 }
 
-.footer-content { max-width: 600px; text-align: center; width: 100%; }
-.footer-content h2 { font-size: min(8vw, 36px); font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; color: var(--text-color); }
-.footer-content p { font-size: 16px; line-height: 1.6; color: var(--text-color); opacity: 0.75; margin-bottom: 40px; }
-.footer-buttons { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; width: 100%; }
-.footer-btn {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 14px 24px; border-radius: 8px; font-size: 16px; font-weight: 600;
-    text-decoration: none; transition: all 0.2s ease; width: 100%; box-sizing: border-box;
-}
-.footer-btn:active { transform: scale(0.98); }
-.ghost-btn { background-color: transparent; color: var(--text-color); border: 1px solid var(--nav-border); opacity: 0.7; }
-.ghost-btn:hover { background-color: var(--grid-bg); opacity: 1; }
-.outline-btn { background-color: var(--grid-bg); color: var(--text-color); border: 1px solid var(--grid-border-thin); box-shadow: var(--numpad-shadow); }
-.outline-btn:hover { background-color: var(--numpad-active); }
-.social-icons { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; }
-.social-icons a { color: var(--text-color); opacity: 0.5; transition: opacity 0.2s ease, transform 0.2s ease; }
-.social-icons a:hover { opacity: 1; transform: translateY(-2px); }
-.footer-bottom { width: 100%; text-align: center; padding-top: 20px; border-top: 1px solid var(--nav-border); font-size: 13px; font-weight: 500; color: var(--text-color); opacity: 0.5; }
+.app-footer p { margin: 0; }
 
 /* --- Victory Modal --- */
 .modal {
@@ -324,26 +316,37 @@ button.reset-btn:hover { filter: brightness(0.9); }
 .modal-content button:active { transform: scale(0.95); }
 
 /* =======================================================
-   LAPTOP & LANDSCAPE TABLET LAYOUT (Match Sudoku.com)
+   LAPTOP & LANDSCAPE TABLET LAYOUT (Perfect Alignment)
    ======================================================= */
 @media (min-width: 850px) {
     .desktop-only { display: flex; }
     .mobile-only { display: none !important; }
 
-    .main-content {
-        padding: 40px 20px; 
+    .main-content { padding: 40px 20px; }
+
+    /* Matches the exact grid width & gap of the app-container below it */
+    .nav-content {
+        display: grid;
+        grid-template-columns: min(65vh, 520px) min(35vh, 320px); 
+        gap: 60px;
+        max-width: 950px;
+        padding: 0;
+        justify-content: center;
     }
 
+    .nav-left { justify-self: start; }
+    .nav-right { justify-self: end; }
+
+    /* Main Game Grid Container */
     .app-container {
         display: grid;
-        /* Matches exactly the proportions from your screenshot */
         grid-template-columns: min(65vh, 520px) min(35vh, 320px); 
         grid-template-areas:
             "difficulty stats"
             "board numpad"
             "board controls";
-        gap: 10px 60px; /* Tight vertical gap, wide horizontal gap */
-        max-width: 950px; /* Constrains the width to match Sudoku.com exactly */
+        gap: 10px 60px;
+        max-width: 950px; 
         align-items: start;
         justify-content: center;
     }
@@ -357,16 +360,8 @@ button.reset-btn:hover { filter: brightness(0.9); }
         padding-bottom: 5px;
     }
 
-    .diff-label {
-        opacity: 0.5;
-    }
-
-    .diff-opt {
-        cursor: pointer;
-        opacity: 0.6;
-        transition: color 0.2s, opacity 0.2s;
-    }
-
+    .diff-label { opacity: 0.5; }
+    .diff-opt { cursor: pointer; opacity: 0.6; transition: color 0.2s, opacity 0.2s; }
     .diff-opt:hover { color: var(--input-user); opacity: 1; }
     .diff-opt.selected { color: var(--input-user); opacity: 1; font-weight: 700; }
 
@@ -409,10 +404,6 @@ button.reset-btn:hover { filter: brightness(0.9); }
         color: var(--text-color);
     }
 
-    .controls { 
-        grid-area: controls; 
-        flex-direction: column; 
-    }
-
+    .controls { grid-area: controls; flex-direction: column; }
     .controls button { padding: 18px; font-size: 18px; border-radius: 6px;}
 }

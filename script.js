@@ -58,6 +58,7 @@ document.addEventListener("visibilitychange", () => {
     }
 });
 
+// Reactivates the SVG icon swapping logic
 function updateThemeIcon() {
     if (document.body.classList.contains("dark-mode")) {
         moonIcon.style.display = "none";
@@ -400,7 +401,7 @@ function init() {
     if (localStorage.getItem("sudokuTheme") === "dark") {
         document.body.classList.add("dark-mode");
     }
-    updateThemeIcon(); 
+    updateThemeIcon(); // Ensures SVG icon is correct on reload
 
     const savedData = localStorage.getItem('sudokuGame');
     if (savedData) {
