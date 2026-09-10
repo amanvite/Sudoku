@@ -78,17 +78,27 @@ function toggleDropdown(event) {
     event.stopPropagation(); 
     const optionsMenu = document.getElementById('dropdown-options');
     const selectedBox = document.querySelector('.dropdown-selected');
-    
-    optionsMenu.classList.toggle('show');
-    selectedBox.classList.toggle('open');
+    if(optionsMenu && selectedBox) {
+        optionsMenu.classList.toggle('show');
+        selectedBox.classList.toggle('open');
+    }
 }
 
 function selectDifficulty(value, text) {
     document.getElementById('difficulty').value = value;
-    document.getElementById('dropdown-text').innerText = text;
     
-    const options = document.querySelectorAll('.dropdown-option');
-    options.forEach(opt => {
+    // Update Mobile Dropdown Text
+    const diffTextElem = document.getElementById('dropdown-text');
+    if (diffTextElem) diffTextElem.innerText = text;
+    
+    // Highlight correct Mobile option
+    document.querySelectorAll('.dropdown-option').forEach(opt => {
+        opt.classList.remove('selected');
+        if (opt.innerText === text) opt.classList.add('selected');
+    });
+
+    // Highlight correct Desktop text link option
+    document.querySelectorAll('.diff-opt').forEach(opt => {
         opt.classList.remove('selected');
         if (opt.innerText === text) opt.classList.add('selected');
     });
@@ -404,9 +414,17 @@ function init() {
             let diffText = "Medium";
             if (data.difficulty == 30) diffText = "Easy";
             if (data.difficulty == 55) diffText = "Hard";
-            document.getElementById("dropdown-text").innerText = diffText;
             
+            const diffTextElem = document.getElementById("dropdown-text");
+            if (diffTextElem) diffTextElem.innerText = diffText;
+            
+            // Sync Mobile
             document.querySelectorAll('.dropdown-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.innerText === diffText) opt.classList.add('selected');
+            });
+            // Sync Desktop
+            document.querySelectorAll('.diff-opt').forEach(opt => {
                 opt.classList.remove('selected');
                 if (opt.innerText === diffText) opt.classList.add('selected');
             });

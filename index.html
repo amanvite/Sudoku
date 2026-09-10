@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Sudoku</title>
 <link rel="stylesheet" href="styles.css">
+<!-- Confetti Library -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -21,8 +22,8 @@
         </div>
         
         <div class="nav-right">
-            <!-- Custom Dropdown -->
-            <div class="custom-dropdown" id="difficulty-dropdown">
+            <!-- Mobile Custom Dropdown (Hidden on Desktop) -->
+            <div class="custom-dropdown mobile-only" id="difficulty-dropdown">
                 <div class="dropdown-selected" onclick="toggleDropdown(event)">
                     <span id="dropdown-text">Medium</span>
                     <svg class="chevron" id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -31,11 +32,13 @@
                 </div>
                 <div class="dropdown-options" id="dropdown-options">
                     <div class="dropdown-option" onclick="selectDifficulty(30, 'Easy')">Easy</div>
-                    <div class="dropdown-option selected" id="opt-medium" onclick="selectDifficulty(45, 'Medium')">Medium</div>
+                    <div class="dropdown-option selected" onclick="selectDifficulty(45, 'Medium')">Medium</div>
                     <div class="dropdown-option" onclick="selectDifficulty(55, 'Hard')">Hard</div>
                 </div>
-                <input type="hidden" id="difficulty" value="45">
             </div>
+            
+            <!-- Hidden input to store value globally -->
+            <input type="hidden" id="difficulty" value="45">
 
             <!-- Theme Toggle -->
             <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
@@ -61,6 +64,14 @@
     <div class="main-content">
         <div class="app-container">
             
+            <!-- Desktop Difficulty (Hidden on Mobile) -->
+            <div class="desktop-difficulty desktop-only">
+                <span class="diff-label">Difficulty:</span>
+                <span class="diff-opt" onclick="selectDifficulty(30, 'Easy')">Easy</span>
+                <span class="diff-opt selected" onclick="selectDifficulty(45, 'Medium')">Medium</span>
+                <span class="diff-opt" onclick="selectDifficulty(55, 'Hard')">Hard</span>
+            </div>
+
             <div class="stats-bar">
                 <div id="message"></div>
                 <div class="timer-box">
@@ -99,9 +110,50 @@
         </div>
     </div>
 
-    <!-- Copyright Footer -->
-    <footer class="app-footer">
-        <p>&copy; 2026 Sudoku. All rights reserved.</p>
+    <!-- Portfolio CTA Footer -->
+    <footer class="portfolio-footer">
+        <div class="footer-content">
+            <h2>Let's build something great.</h2>
+            <p>Currently accepting freelance opportunities and open to remote collaboration. Reach out to discuss your next web application or micro-SaaS project.</p>
+            
+            <div class="footer-buttons">
+                <!-- Link to your GitHub -->
+                <a href="https://github.com/amanvite" target="_blank" class="footer-btn ghost-btn">View GitHub</a>
+                <!-- Link to your Email -->
+                <a href="mailto:your@email.com" class="footer-btn outline-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    Email Me
+                </a>
+            </div>
+
+            <div class="social-icons">
+                <a href="https://github.com/amanvite" target="_blank" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Website">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Aman Kumar Verma. All rights reserved.
+        </div>
     </footer>
 
     <!-- Victory Modal -->

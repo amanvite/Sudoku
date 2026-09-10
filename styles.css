@@ -42,9 +42,13 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    height: 100dvh; 
-    overflow: hidden; 
+    min-height: 100dvh; 
+    overflow-x: hidden; 
 }
+
+/* Base Utility Classes */
+.desktop-only { display: none; }
+.mobile-only { display: flex; }
 
 /* --- Full Width Navbar --- */
 .top-navbar {
@@ -85,12 +89,12 @@ body {
 
 /* --- Main App Container (Mobile Default) --- */
 .main-content {
-    flex: 1; /* Automatically takes up space between header and footer */
+    flex: 1; 
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 10px;
+    padding: 2vh 10px;
     box-sizing: border-box;
 }
 
@@ -137,11 +141,10 @@ body {
     font-variant-numeric: tabular-nums;
 }
 
-/* --- Dropdown & Buttons --- */
+/* --- Dropdown & Buttons (Mobile Navbar) --- */
 .custom-dropdown { position: relative; font-family: 'Inter', sans-serif; }
 
 .dropdown-selected, .theme-btn {
-    display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -154,6 +157,7 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
     user-select: none;
+    border: none;
 }
 
 .dropdown-selected:hover, .theme-btn:hover { background-color: var(--numpad-active); }
@@ -262,20 +266,37 @@ button.new-btn:hover { filter: brightness(0.9); }
 button.reset-btn { background-color: #ef4444; }
 button.reset-btn:hover { filter: brightness(0.9); }
 
-/* --- Footer --- */
-.app-footer {
+/* --- Portfolio CTA Footer --- */
+.portfolio-footer {
     width: 100%;
-    text-align: center;
-    padding: 12px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-color);
-    opacity: 0.6;
+    background-color: var(--bg-color);
+    border-top: 1px solid var(--nav-border);
+    padding: 60px 20px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.app-footer p {
-    margin: 0;
+.footer-content { max-width: 600px; text-align: center; width: 100%; }
+.footer-content h2 { font-size: min(8vw, 36px); font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; color: var(--text-color); }
+.footer-content p { font-size: 16px; line-height: 1.6; color: var(--text-color); opacity: 0.75; margin-bottom: 40px; }
+.footer-buttons { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; width: 100%; }
+.footer-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 24px; border-radius: 8px; font-size: 16px; font-weight: 600;
+    text-decoration: none; transition: all 0.2s ease; width: 100%; box-sizing: border-box;
 }
+.footer-btn:active { transform: scale(0.98); }
+.ghost-btn { background-color: transparent; color: var(--text-color); border: 1px solid var(--nav-border); opacity: 0.7; }
+.ghost-btn:hover { background-color: var(--grid-bg); opacity: 1; }
+.outline-btn { background-color: var(--grid-bg); color: var(--text-color); border: 1px solid var(--grid-border-thin); box-shadow: var(--numpad-shadow); }
+.outline-btn:hover { background-color: var(--numpad-active); }
+.social-icons { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; }
+.social-icons a { color: var(--text-color); opacity: 0.5; transition: opacity 0.2s ease, transform 0.2s ease; }
+.social-icons a:hover { opacity: 1; transform: translateY(-2px); }
+.footer-bottom { width: 100%; text-align: center; padding-top: 20px; border-top: 1px solid var(--nav-border); font-size: 13px; font-weight: 500; color: var(--text-color); opacity: 0.5; }
 
 /* --- Victory Modal --- */
 .modal {
@@ -306,34 +327,58 @@ button.reset-btn:hover { filter: brightness(0.9); }
    LAPTOP & LANDSCAPE TABLET LAYOUT (Match Sudoku.com)
    ======================================================= */
 @media (min-width: 850px) {
+    .desktop-only { display: flex; }
+    .mobile-only { display: none !important; }
+
     .main-content {
         padding: 40px 20px; 
     }
 
     .app-container {
         display: grid;
+        /* Matches exactly the proportions from your screenshot */
         grid-template-columns: min(65vh, 520px) min(35vh, 320px); 
         grid-template-areas:
-            "board stats"
+            "difficulty stats"
             "board numpad"
             "board controls";
-        gap: 20px 60px;
-        max-width: 1000px;
+        gap: 10px 60px; /* Tight vertical gap, wide horizontal gap */
+        max-width: 950px; /* Constrains the width to match Sudoku.com exactly */
         align-items: start;
         justify-content: center;
     }
+
+    .desktop-difficulty {
+        grid-area: difficulty;
+        align-items: center;
+        gap: 16px;
+        font-size: 15px;
+        font-weight: 600;
+        padding-bottom: 5px;
+    }
+
+    .diff-label {
+        opacity: 0.5;
+    }
+
+    .diff-opt {
+        cursor: pointer;
+        opacity: 0.6;
+        transition: color 0.2s, opacity 0.2s;
+    }
+
+    .diff-opt:hover { color: var(--input-user); opacity: 1; }
+    .diff-opt.selected { color: var(--input-user); opacity: 1; font-weight: 700; }
 
     .board-container { grid-area: board; width: 100%; }
 
     .stats-bar { 
         grid-area: stats; 
-        border-bottom: 2px solid var(--grid-border-thin);
-        padding-bottom: 15px;
+        padding-bottom: 5px;
         align-items: center;
     }
 
     #message { font-size: 18px; }
-    
     .timer-box { align-items: center; }
     #timer { font-size: 24px; }
 
