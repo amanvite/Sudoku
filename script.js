@@ -6,14 +6,12 @@ const msg = document.getElementById("message");
 const moonIcon = document.getElementById("moon-icon");
 const sunIcon = document.getElementById("sun-icon");
 
-// Timer Variables
 let secondsElapsed = 0;
 let timerInterval = null;
 let isTimerRunning = false;
 let isGameWon = false;
 const timerDisplay = document.getElementById("timer");
 
-// --- Timer Logic ---
 function formatTime(totalSeconds) {
     const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
     const s = (totalSeconds % 60).toString().padStart(2, '0');
@@ -60,7 +58,6 @@ document.addEventListener("visibilitychange", () => {
     }
 });
 
-// --- Theme & UI Logic ---
 function updateThemeIcon() {
     if (document.body.classList.contains("dark-mode")) {
         moonIcon.style.display = "none";
@@ -111,27 +108,10 @@ function closeDropdown() {
 
 document.addEventListener('click', closeDropdown);
 
-// --- Confetti & Modal Logic ---
 function fireConfetti() {
     if (typeof confetti !== 'function') return;
-    
-    // Shoot from the left edge
-    confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { x: 0, y: 0.6 },
-        angle: 60,
-        zIndex: 2000 // Ensures it shows above the modal overlay
-    });
-    
-    // Shoot from the right edge
-    confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { x: 1, y: 0.6 },
-        angle: 120,
-        zIndex: 2000
-    });
+    confetti({ particleCount: 150, spread: 80, origin: { x: 0, y: 0.6 }, angle: 60, zIndex: 3000 });
+    confetti({ particleCount: 150, spread: 80, origin: { x: 1, y: 0.6 }, angle: 120, zIndex: 3000 });
 }
 
 function closeModalAndNewGame() {
@@ -139,7 +119,6 @@ function closeModalAndNewGame() {
     newGame();
 }
 
-// --- Game State Logic ---
 function saveState() {
     let currentState = [];
     for (let i = 0; i < 9; i++) {
@@ -344,16 +323,14 @@ function autoCheckWin() {
     }
 
     if (isFull) {
-        msg.innerText = ""; // Clear top message entirely on full board
+        msg.innerText = ""; 
 
         if (allCorrect) {
-            // Only fire confetti and show modal if the game wasn't already marked as won
             if (!isGameWon) {
                 isGameWon = true; 
                 stopTimer();
                 fireConfetti();
                 
-                // Set the modal text and show it
                 document.getElementById('victory-time').innerText = formatTime(secondsElapsed);
                 document.getElementById('victory-modal').classList.add('show');
             }
@@ -362,21 +339,19 @@ function autoCheckWin() {
             msg.style.color = "#ef4444";
         }
 
-        // Apply green to correct cells, red to incorrect cells
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 const input = document.getElementById(`cell-${i}-${j}`);
                 if (!input.readOnly) {
                     if (input.value == solution[i][j]) {
-                        input.style.color = "#10b981"; // Correct
+                        input.style.color = "#10b981"; 
                     } else {
-                        input.style.color = "#ef4444"; // Mistake
+                        input.style.color = "#ef4444"; 
                     }
                 }
             }
         }
     } else {
-        // If the grid is not full, reset colors
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 const input = document.getElementById(`cell-${i}-${j}`);
