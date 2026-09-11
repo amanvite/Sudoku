@@ -58,7 +58,6 @@ document.addEventListener("visibilitychange", () => {
     }
 });
 
-// Reactivates the SVG icon swapping logic
 function updateThemeIcon() {
     if (document.body.classList.contains("dark-mode")) {
         moonIcon.style.display = "none";
@@ -88,17 +87,14 @@ function toggleDropdown(event) {
 function selectDifficulty(value, text) {
     document.getElementById('difficulty').value = value;
     
-    // Update Mobile Dropdown Text
     const diffTextElem = document.getElementById('dropdown-text');
     if (diffTextElem) diffTextElem.innerText = text;
     
-    // Highlight correct Mobile option
     document.querySelectorAll('.dropdown-option').forEach(opt => {
         opt.classList.remove('selected');
         if (opt.innerText === text) opt.classList.add('selected');
     });
 
-    // Highlight correct Desktop text link option
     document.querySelectorAll('.diff-opt').forEach(opt => {
         opt.classList.remove('selected');
         if (opt.innerText === text) opt.classList.add('selected');
@@ -401,7 +397,7 @@ function init() {
     if (localStorage.getItem("sudokuTheme") === "dark") {
         document.body.classList.add("dark-mode");
     }
-    updateThemeIcon(); // Ensures SVG icon is correct on reload
+    updateThemeIcon(); 
 
     const savedData = localStorage.getItem('sudokuGame');
     if (savedData) {
@@ -419,12 +415,10 @@ function init() {
             const diffTextElem = document.getElementById("dropdown-text");
             if (diffTextElem) diffTextElem.innerText = diffText;
             
-            // Sync Mobile
             document.querySelectorAll('.dropdown-option').forEach(opt => {
                 opt.classList.remove('selected');
                 if (opt.innerText === diffText) opt.classList.add('selected');
             });
-            // Sync Desktop
             document.querySelectorAll('.diff-opt').forEach(opt => {
                 opt.classList.remove('selected');
                 if (opt.innerText === diffText) opt.classList.add('selected');

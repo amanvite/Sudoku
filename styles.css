@@ -46,11 +46,9 @@ body {
     overflow-x: hidden; 
 }
 
-/* Base Utility Classes */
 .desktop-only { display: none; }
 .mobile-only { display: flex; }
 
-/* --- Full Width Navbar --- */
 .top-navbar {
     width: 100%;
     height: 64px;
@@ -95,14 +93,20 @@ body {
     color: var(--text-color);
 }
 
-/* --- Main App Container (Mobile Default) --- */
+.nav-left a {
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .main-content {
-    flex: 1; 
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 2vh 10px;
+    padding: 3vh 10px;
     box-sizing: border-box;
 }
 
@@ -149,7 +153,6 @@ body {
     font-variant-numeric: tabular-nums;
 }
 
-/* --- Boxed Theme Toggle & Dropdown --- */
 .custom-dropdown { position: relative; font-family: 'Inter', sans-serif; }
 
 .dropdown-selected, .theme-btn {
@@ -198,7 +201,6 @@ body {
 .dropdown-option:hover { background-color: var(--focus-bg); }
 .dropdown-option.selected { color: var(--input-user); background-color: var(--focus-bg); }
 
-/* --- Game Board --- */
 .board-container {
     background: var(--grid-bg);
     border: 3px solid var(--grid-border-thick);
@@ -232,7 +234,6 @@ input:not([readonly]) { color: var(--input-user); font-weight: 600; }
 input[readonly] { color: var(--input-given); font-weight: 800; cursor: default; }
 input:focus { outline: none; background: var(--focus-bg); border: 2px solid var(--focus-ring); z-index: 10; }
 
-/* --- Mobile Numpad & Controls --- */
 .numpad {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -276,21 +277,104 @@ button.new-btn:hover { filter: brightness(0.9); }
 button.reset-btn { background-color: #ef4444; }
 button.reset-btn:hover { filter: brightness(0.9); }
 
-/* --- Minimal Footer --- */
+.manual-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 40px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+
+.manual-container h3 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.manual-container p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.rules-box {
+    background-color: var(--numpad-active);
+    padding: 25px 30px;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.rules-box ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.rules-box li {
+    font-size: 16px;
+    line-height: 1.8;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.rules-box li:last-child {
+    margin-bottom: 0;
+}
+
+.closing-text {
+    margin-top: 40px;
+}
+
+.policy-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+
+.policy-container h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+.policy-container h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+.policy-container p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+
 .app-footer {
     width: 100%;
     text-align: center;
-    padding: 20px;
+    padding: 40px 20px;
     font-size: 13px;
     font-weight: 500;
     color: var(--text-color);
     opacity: 0.5;
     box-sizing: border-box;
+    margin-top: auto;
 }
 
 .app-footer p { margin: 0; }
+.app-footer a { color: var(--text-color); text-decoration: none; font-weight: 600; }
+.app-footer a:hover { text-decoration: underline; }
 
-/* --- Victory Modal --- */
 .modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.4);
@@ -315,16 +399,12 @@ button.reset-btn:hover { filter: brightness(0.9); }
 }
 .modal-content button:active { transform: scale(0.95); }
 
-/* =======================================================
-   LAPTOP & LANDSCAPE TABLET LAYOUT (Perfect Alignment)
-   ======================================================= */
 @media (min-width: 850px) {
     .desktop-only { display: flex; }
     .mobile-only { display: none !important; }
 
     .main-content { padding: 40px 20px; }
 
-    /* Matches the exact grid width & gap of the app-container below it */
     .nav-content {
         display: grid;
         grid-template-columns: min(65vh, 520px) min(35vh, 320px); 
@@ -337,7 +417,6 @@ button.reset-btn:hover { filter: brightness(0.9); }
     .nav-left { justify-self: start; }
     .nav-right { justify-self: end; }
 
-    /* Main Game Grid Container */
     .app-container {
         display: grid;
         grid-template-columns: min(65vh, 520px) min(35vh, 320px); 
