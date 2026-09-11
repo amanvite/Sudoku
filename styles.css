@@ -42,6 +42,7 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
+    min-height: 100vh; 
     min-height: 100dvh; 
     overflow-x: hidden; 
 }
@@ -327,36 +328,6 @@ button.reset-btn:hover { filter: brightness(0.9); }
 
 .closing-text {
     margin-top: 40px;
-}
-
-.policy-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
-    box-sizing: border-box;
-    color: var(--text-color);
-}
-
-.policy-container h1 {
-    font-size: 32px;
-    font-weight: 800;
-    margin-bottom: 20px;
-    letter-spacing: -0.5px;
-}
-
-.policy-container h2 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 40px;
-    margin-bottom: 15px;
-}
-
-.policy-container p {
-    font-size: 16px;
-    line-height: 1.6;
-    opacity: 0.8;
-    margin-bottom: 15px;
 }
 
 .app-footer {
