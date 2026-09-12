@@ -365,6 +365,7 @@ function autoCheckWin() {
                 fireConfetti();
                 
                 document.getElementById('victory-time').innerText = formatTime(secondsElapsed);
+                document.getElementById('v-diff').innerText = document.getElementById('dropdown-text').innerText;
                 document.getElementById('victory-modal').classList.add('show');
             }
         } else {

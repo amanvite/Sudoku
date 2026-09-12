@@ -139,9 +139,19 @@
     </footer>
 
     <div id="victory-modal" class="modal">
-        <div class="modal-content">
-            <h2>Congratulations! 🎉</h2>
-            <p>You solved this puzzle in <span id="victory-time"></span></p>
+        <div class="modal-content victory-card">
+            <div class="trophy">🏆</div>
+            <h2>Puzzle Solved!</h2>
+            <div class="victory-details">
+                <div class="v-stat">
+                    <span>Difficulty</span>
+                    <strong id="v-diff"></strong>
+                </div>
+                <div class="v-stat">
+                    <span>Time</span>
+                    <strong id="victory-time"></strong>
+                </div>
+            </div>
             <button onclick="closeModalAndNewGame()">Play Again</button>
         </div>
     </div>
