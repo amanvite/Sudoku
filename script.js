@@ -242,6 +242,31 @@ function fillRemaining(i, j) {
     return false;
 }
 
+function clearHighlights() {
+    const tds = document.querySelectorAll('td');
+    for (let i = 0; i < tds.length; i++) {
+        tds[i].classList.remove('highlight', 'selected-cell');
+    }
+}
+
+function highlightCells(r, c) {
+    clearHighlights();
+    const startRow = Math.floor(r / 3) * 3;
+    const startCol = Math.floor(c / 3) * 3;
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            const input = document.getElementById(`cell-${i}-${j}`);
+            if (input && input.parentElement) {
+                if (i === r && j === c) {
+                    input.parentElement.classList.add('selected-cell');
+                } else if (i === r || j === c || (i >= startRow && i < startRow + 3 && j >= startCol && j < startCol + 3)) {
+                    input.parentElement.classList.add('highlight');
+                }
+            }
+        }
+    }
+}
+
 function renderGrid() {
     table.innerHTML = "";
     selectedCell = null;
@@ -263,6 +288,7 @@ function renderGrid() {
 
             input.addEventListener('focus', () => {
                 selectedCell = input;
+                highlightCells(i, j);
             });
 
             input.addEventListener('input', () => {
@@ -343,7 +369,6 @@ function autoCheckWin() {
             }
         } else {
             msg.innerText = "There are mistakes.";
-            msg.style.color = "#ef4444";
         }
 
         for (let i = 0; i < 9; i++) {
@@ -351,9 +376,9 @@ function autoCheckWin() {
                 const input = document.getElementById(`cell-${i}-${j}`);
                 if (!input.readOnly) {
                     if (input.value == solution[i][j]) {
-                        input.style.color = "#10b981"; 
+                        input.style.color = "var(--input-user)"; 
                     } else {
-                        input.style.color = "#ef4444"; 
+                        input.style.color = "var(--error-color)"; 
                     }
                 }
             }
@@ -363,7 +388,7 @@ function autoCheckWin() {
             for (let j = 0; j < 9; j++) {
                 const input = document.getElementById(`cell-${i}-${j}`);
                 if (!input.readOnly) {
-                    input.style.color = "";
+                    input.style.color = "var(--input-user)";
                 }
             }
         }
@@ -374,6 +399,7 @@ function newGame() {
     msg.innerText = "";
     generateSudoku();
     renderGrid();
+    clearHighlights();
     resetTimer(); 
     saveState();
 }
@@ -389,6 +415,7 @@ function resetGrid() {
             }
         }
     }
+    clearHighlights();
     resetTimer(); 
     saveState();
 }
@@ -397,7 +424,6 @@ function init() {
     if (localStorage.getItem("sudokuTheme") === "dark") {
         document.body.classList.add("dark-mode");
     }
-    updateThemeIcon(); 
 
     const savedData = localStorage.getItem('sudokuGame');
     if (savedData) {
@@ -410,7 +436,9 @@ function init() {
             diffInput.value = data.difficulty;
             let diffText = "Medium";
             if (data.difficulty == 30) diffText = "Easy";
+            if (data.difficulty == 45) diffText = "Medium";
             if (data.difficulty == 55) diffText = "Hard";
+            if (data.difficulty == 65) diffText = "Expert";
             
             const diffTextElem = document.getElementById("dropdown-text");
             if (diffTextElem) diffTextElem.innerText = diffText;
@@ -458,6 +486,8 @@ function init() {
     } else {
         newGame();
     }
+    
+    updateThemeIcon(); 
 }
 
 init();
